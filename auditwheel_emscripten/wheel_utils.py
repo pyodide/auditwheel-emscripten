@@ -34,25 +34,31 @@ def parse_wheel_extract_dir(wheel_file: str | Path) -> str:
     return m.group("namever")
 
 
-def unpack(path: str, dest: str = ".") -> Path:
+def unpack(path: str | Path, dest: str | Path = ".") -> Path:
     """Unpack a wheel.
     Wheel content will be unpacked to {dest}/{name}-{ver}, where {name}
     is the package name and {ver} its version.
     :param path: The path to the wheel.
     :param dest: Destination directory (default to current directory).
     """
+    path = str(path)
+    dest = str(dest)
+
     with io.StringIO() as buf, redirect_stdout(buf):
         unpack_wheel(path, dest)
 
     return Path(dest) / parse_wheel_extract_dir(path)
 
 
-def pack(directory: str, dest_dir: str, build_number: str | None) -> None:
+def pack(directory: str | Path, dest_dir: str | Path, build_number: str | None) -> None:
     """Repack a previously unpacked wheel directory into a new wheel file.
     The .dist-info/WHEEL file must contain one or more tags so that the target
     wheel file name can be determined.
     :param directory: The unpacked wheel directory
     :param dest_dir: Destination directory (defaults to the current directory)
     """
+    directory = str(directory)
+    dest_dir = str(dest_dir)
+
     with io.StringIO() as buf, redirect_stdout(buf):
         pack_wheel(directory, dest_dir, build_number)
