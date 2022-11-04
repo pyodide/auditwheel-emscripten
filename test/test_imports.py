@@ -13,8 +13,6 @@ from auditwheel_emscripten.imports import get_imports
                 ("GOT.func", "tls1_enc"),
                 ("GOT.func", "tls1_mac"),
                 ("GOT.mem", "X509_it"),
-                ("GOT.mem", "X509_get1_email"),
-                ("GOT.mem", "X509_get1_ocsp"),
             ],
         ),
     ],
