@@ -67,7 +67,7 @@ def test_copylib(tmp_path, wheel_file, expected):
     ],
 )
 def test_repair(tmp_path, wheel_file, expected):
-    repaired_wheel = repair(wheel_file, TEST_DATA, tmp_path)
+    repaired_wheel = repair(wheel_file, TEST_DATA, tmp_path, modify_needed_section=True)
 
     libs = show(repaired_wheel)
     libs_dependencies = list(chain(*libs.values()))
