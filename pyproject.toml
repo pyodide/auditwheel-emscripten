@@ -17,6 +17,12 @@ dependencies = [
     "wheel",
 ]
 
+[project.optional-dependencies]
+test = [
+  "pytest",
+]
+
+
 [project.urls]
 Home = "https://github.com/ryanking13/auditwheel-emscripten"
 
