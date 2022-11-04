@@ -47,7 +47,9 @@ def _repair(
     [Experimental] Repair a wheel file: copy shared libraries to the wheel directory and modify the path in the wheel file.
     """
     try:
-        repaired_wheel = repair(wheel_file, libdir, output_dir)
+        repaired_wheel = repair(
+            wheel_file, libdir, output_dir, modify_needed_section=True
+        )
         dependencies = show(repaired_wheel)
         rich.print("Repaired wheel has following external shared libraries:")
         pprint(dependencies)

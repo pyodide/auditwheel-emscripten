@@ -80,7 +80,7 @@ def repair(
     libdir: str | Path,
     outdir: str | Path | None,
     lib_sdir: str = ".libs",
-    modify_needed_section: bool = True,
+    modify_needed_section: bool = False,
 ) -> Path:
     file = Path(wheel_file)
     if not file.exists():
