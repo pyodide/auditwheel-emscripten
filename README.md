@@ -14,7 +14,7 @@ $ pip install auditwheel-emscripten
 ## Usage (CLI)
 
 ```sh
- Usage: pyodide audit [OPTIONS] COMMAND [ARGS]...
+ Usage: pyodide auditwheel [OPTIONS] COMMAND [ARGS]...
 
  Auditwheel-like tool for emscripten wheels and shared libraries.
 
@@ -32,7 +32,7 @@ $ pip install auditwheel-emscripten
 
 ```sh
 # wget https://cdn.jsdelivr.net/pyodide/v0.21.3/full/Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
-$ pyodide audit show Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
+$ pyodide auditwheel show Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
 
 The following external shared libraries are required:
 {
@@ -42,7 +42,7 @@ The following external shared libraries are required:
 ```
 
 ```sh
-$ pyodide audit copy --libdir <directory which contains libgeos_c.so> Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
+$ pyodide auditwheel copy --libdir <directory which contains libgeos_c.so> Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
 
 Repaired wheel has following external shared libraries:
 {

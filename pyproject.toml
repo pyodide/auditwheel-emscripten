@@ -27,4 +27,4 @@ test = [
 Home = "https://github.com/ryanking13/auditwheel-emscripten"
 
 [project.entry-points."pyodide.cli"]
-audit = "auditwheel_emscripten.cli.main:app"
+auditwheel = "auditwheel_emscripten.cli.main:app"
