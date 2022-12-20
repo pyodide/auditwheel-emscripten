@@ -3,7 +3,7 @@
 [![PyPI Latest Release](https://img.shields.io/pypi/v/auditwheel-emscripten.svg)](https://pypi.org/project/auditwheel-emscripten/)
 ![Test Status](https://github.com/ryanking13/auditwheel-emscripten/actions/workflows/test.yml/badge.svg)
 
-auditwheel-like tool for wheels targetting Emscripten platform
+auditwheel-like tool for wheels targeting Emscripten platform
 
 ## What is this?
 
@@ -97,7 +97,7 @@ print(libs)
 
 Dynamic linking is not in the WebAssembly specification,
 but Emscripten has its own dynamic linking support,
-which is required for building Python wheels targetting Emscripten platform.
+which is required for building Python wheels targeting Emscripten platform.
 
 This tool is based on:
 
@@ -118,5 +118,3 @@ to work with Emscripten-generated WebAssembly (WASM) modules.
 It does not perform an audit on the wheel, as Emscripten does not guarantee compatibility between versions.
 Instead, it simply copies the required libraries into the wheel without modifying the module itself.
 It is up to the user to manually implement a way to locate these libraries at runtime.
-
-
