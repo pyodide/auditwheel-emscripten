@@ -16,7 +16,7 @@ def libdir_candidates(libdir: str | Path) -> list[Path]:
 
 @cache
 def sharedlib_regex() -> re.Pattern:
-    return re.compile(r"\.so(.\d+)*$")
+    return re.compile(r"[\.so(.\d+)*|\.wasm]$")
 
 
 def get_all_shared_libs_in_dir(directory: str | Path) -> list[Path]:
