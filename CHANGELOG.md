@@ -9,4 +9,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
- - Changed the CLI entry point name from `pyodide audit` to `pyodide auditwheel` ([#5](https://github.com/pyodide/pyodide-cli/pull/5))
+ - Changed the CLI entry point name from `pyodide audit` to `pyodide auditwheel`
+ ([#5](https://github.com/ryanking13/auditwheel-emscripten/pull/5))
