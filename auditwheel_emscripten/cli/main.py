@@ -25,7 +25,6 @@ def _show(
     """
     try:
         dependencies = show(wheel_or_so_file)
-        rich.print("The following external shared libraries are required:")
         pprint(dependencies)
     except Exception as e:
         raise e
@@ -51,7 +50,6 @@ def _repair(
             wheel_file, libdir, output_dir, modify_needed_section=True
         )
         dependencies = show(repaired_wheel)
-        rich.print("Repaired wheel has following external shared libraries:")
         pprint(dependencies)
     except RuntimeError as e:
         raise e
@@ -77,7 +75,6 @@ def _copy(
             wheel_file, libdir, output_dir, modify_needed_section=False
         )
         dependencies = show(repaired_wheel)
-        rich.print("Repaired wheel has following external shared libraries:")
         pprint(dependencies)
     except RuntimeError as e:
         raise e
@@ -94,8 +91,10 @@ def _exports(
     """
     try:
         exports = get_exports(wheel_or_so_file)
-        rich.print("It has following exports:")
-        pprint(exports)
+        for export in exports:
+            print(f"{export}:")
+            for symbol in exports[export]:
+                print(f"{symbol.kind.name:>10}\t{symbol.name}")
     except Exception as e:
         raise e
 
@@ -111,7 +110,9 @@ def _imports(
     """
     try:
         imports = get_imports(wheel_or_so_file)
-        rich.print("It has following imports:")
-        pprint(imports)
+        for _import in imports:
+            print(f"{_import}:")
+            for symbol in imports[_import]:
+                print(f"{symbol.module:>10}{symbol.kind.name:>10}\t{symbol.field}")
     except Exception as e:
         raise e
