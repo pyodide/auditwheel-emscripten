@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+## [0.0.10] - 2023.01.26
+
+### Changed
+
+- Removed extra message from CLI commands.
+  ([#8](https://github.com/ryanking13/auditwheel-emscripten/pull/8))
+- Changed the output format of `exports` and `imports` CLI command in order to
+  make it easier to parse with `grep`.
+  ([#8](https://github.com/ryanking13/auditwheel-emscripten/pull/8))
+
 ## [0.0.9] - 2022.12.20
 
 ### Fixed
