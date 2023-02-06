@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.0.11] - 2023.02.06
+
+### Added
+
+- Added `--show-type` option to `exports` and `imports` command, which will
+  show the type of the functions in the output.
+  ([#9](https://github.com/ryanking13/auditwheel-emscripten/pull/9))
+
 ## [0.0.10] - 2023.01.26
 
 ### Changed
