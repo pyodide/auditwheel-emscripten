@@ -1,7 +1,9 @@
 import io
 import re
-from contextlib import redirect_stdout
+from contextlib import redirect_stdout, contextmanager
 from pathlib import Path
+import tempfile
+from collections.abc import Generator
 
 from packaging.utils import parse_wheel_filename
 from wheel.cli.pack import pack as pack_wheel
@@ -13,6 +15,21 @@ WHEEL_INFO_RE = re.compile(
      -(?P<pyver>[a-z].+?)-(?P<abi>.+?)-(?P<plat>.+?)(\.whl|\.dist-info)$""",
     re.VERBOSE,
 )
+
+
+@contextmanager
+def unpack_if_wheel(path: str | Path) -> Generator[Path, None, None]:
+    """
+    Unpack a wheel to a temporary directory if the input is a wheel,
+    then return the path to the temporary directory.
+    Otherwise yield an empty path.
+    """
+
+    if Path(path).suffix != ".whl":
+        yield Path()
+    else:
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            yield unpack(path, tmpdirname)
 
 
 def is_emscripten_wheel(filename: str) -> bool:

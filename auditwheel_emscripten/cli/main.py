@@ -4,6 +4,7 @@ import typer
 from rich.pretty import pprint
 
 from .. import function_type, get_exports, get_imports, repair, show
+from ..wheel_utils import unpack_if_wheel
 
 app = typer.Typer()
 
@@ -94,15 +95,18 @@ def _exports(
     """
     try:
         exports = get_exports(wheel_or_so_file)
-        for wasmfile in exports:
-            print(f"{wasmfile}:")
-            for symbol in exports[wasmfile]:
-                msg = f"{symbol.kind.name:>10}\t{symbol.name}"
-                if show_type:
-                    typ = function_type.get_function_type_by_idx(wasmfile, symbol.index)
-                    msg += f"\t{function_type.format_function_type(typ)}"
+        with unpack_if_wheel(wheel_or_so_file) as unpacked_dir:
+            for wasmfile in exports:
+                print(f"{wasmfile}:")
+                for symbol in exports[wasmfile]:
+                    msg = f"{symbol.kind.name:>10}\t{symbol.name}"
+                    if show_type:
+                        typ = function_type.get_function_type_by_idx(
+                            unpacked_dir / wasmfile, symbol.index
+                        )
+                        msg += f"\t{function_type.format_function_type(typ)}"
 
-                print(msg)
+                    print(msg)
     except Exception as e:
         raise e
 
@@ -122,17 +126,18 @@ def _imports(
     """
     try:
         imports = get_imports(wheel_or_so_file)
-        for wasmfile in imports:
-            print(f"{wasmfile}:")
-            for symbol in imports[wasmfile]:
-                msg = f"{symbol.module:>10}{symbol.kind.name:>10}\t{symbol.field}"
+        with unpack_if_wheel(wheel_or_so_file) as unpacked_dir:
+            for wasmfile in imports:
+                print(f"{wasmfile}:")
+                for symbol in imports[wasmfile]:
+                    msg = f"{symbol.module:>10}{symbol.kind.name:>10}\t{symbol.field}"
 
-                if show_type and symbol.kind.name == "FUNC":
-                    typ = function_type.get_function_type_by_typeval(
-                        wasmfile, symbol.type
-                    )
-                    msg += f"\t{function_type.format_function_type(typ)}"
+                    if show_type and symbol.kind.name == "FUNC":
+                        typ = function_type.get_function_type_by_typeval(
+                            unpacked_dir / wasmfile, symbol.type
+                        )
+                        msg += f"\t{function_type.format_function_type(typ)}"
 
-                print(msg)
+                    print(msg)
     except Exception as e:
         raise e

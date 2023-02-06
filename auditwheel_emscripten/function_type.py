@@ -5,12 +5,12 @@ from .module import _get_function_type_by_idx, _get_function_type_by_typeval
 
 
 def get_function_type_by_idx(wasm_file: str | Path, idx: int) -> FuncType:
-    function_type: FuncType = _get_function_type_by_idx(wasm_file, idx)
+    function_type: FuncType = _get_function_type_by_idx(str(wasm_file), idx)
     return function_type
 
 
 def get_function_type_by_typeval(wasm_file: str | Path, typeval: int) -> FuncType:
-    function_type: FuncType = _get_function_type_by_typeval(wasm_file, typeval)
+    function_type: FuncType = _get_function_type_by_typeval(str(wasm_file), typeval)
     return function_type
 
 
