@@ -145,3 +145,14 @@ def _get_imports(wasm_file):
     with ModuleWritable(wasm_file) as module:
         imports = module.get_imports()
         return imports
+
+
+def _get_function_type(wasm_file, idx):
+    with ModuleWritable(wasm_file) as module:
+        function_type = module.get_function_type(idx)
+        return function_type
+
+def _get_function_types(wasm_file):
+    with ModuleWritable(wasm_file) as module:
+        function_types = module.get_function_types()
+        return function_types
