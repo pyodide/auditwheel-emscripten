@@ -1,58 +1,23 @@
-import tempfile
 from pathlib import Path
 
 from .emscripten_tools.webassembly import FuncType
-from .lib_utils import get_all_shared_libs_in_dir, sharedlib_regex
-from .module import _get_function_types
-from .wheel_utils import is_emscripten_wheel, unpack
+from .module import _get_function_type_by_idx, _get_function_type_by_typeval
 
 
-def get_function_types_dylib(dylib_file: Path) -> list[FuncType]:
-    if dylib_file.read_bytes()[:4] not in (b"\0asm", b"asm\0"):
-        raise RuntimeError(f"{dylib_file} is not a wasm file")
-
-    exports = _get_function_types(dylib_file)
-    return exports
+def get_function_type_by_idx(wasm_file: str | Path, idx: int) -> FuncType:
+    function_type: FuncType = _get_function_type_by_idx(wasm_file, idx)
+    return function_type
 
 
-def get_function_types_unpacked(
-    wheel_extract_dir: str | Path,
-) -> dict[str, list[FuncType]]:
-    exports_map = {}
-
-    shared_libs = get_all_shared_libs_in_dir(wheel_extract_dir)
-    for shared_lib in shared_libs:
-        exports = get_function_types_dylib(shared_lib)
-        exports_map[str(shared_lib.relative_to(wheel_extract_dir))] = exports
-
-    return exports_map
+def get_function_type_by_typeval(wasm_file: str | Path, typeval: int) -> FuncType:
+    function_type: FuncType = _get_function_type_by_typeval(wasm_file, typeval)
+    return function_type
 
 
-def get_function_types_wheel(wheel_file: Path) -> dict[str, list[FuncType]]:
+def format_function_type(function_type: FuncType) -> str:
+    params = function_type.params
+    returns = function_type.returns
 
-    if not is_emscripten_wheel(wheel_file.name):
-        raise RuntimeError(f"{wheel_file} is not an emscripten wheel")
-
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        tmpdir = Path(tmpdirname)
-
-        extract_dir = unpack(str(wheel_file), str(tmpdir))
-        return get_function_types_unpacked(extract_dir)
-
-
-def get_function_types(wheel_or_so_file: str | Path) -> dict[str, list[FuncType]]:
-    file = Path(wheel_or_so_file)
-    if not file.exists():
-        raise RuntimeError(f"no such file: {file}")
-
-    so_regex = sharedlib_regex()
-    if file.is_dir():
-        return get_function_types_unpacked(file)
-    elif file.suffix == ".whl":
-        return get_function_types_wheel(file)
-    elif so_regex.search(file.name) is not None:
-        return {
-            str(file): get_function_types_dylib(file),
-        }
-    else:
-        raise RuntimeError(f"unknown file type: {file}")
+    params_str = ", ".join([p.name.lower() for p in params])
+    returns_str = ", ".join([p.name.lower() for p in returns])
+    return f"({params_str}) -> ({returns_str})"

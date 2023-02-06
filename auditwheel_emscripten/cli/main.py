@@ -3,7 +3,7 @@ from pathlib import Path
 import typer
 from rich.pretty import pprint
 
-from .. import get_exports, get_imports, repair, show
+from .. import function_type, get_exports, get_imports, repair, show
 
 app = typer.Typer()
 
@@ -83,17 +83,26 @@ def _copy(
 def _exports(
     wheel_or_so_file: Path = typer.Argument(
         ..., help="Path to wheel or a shared library file."
-    )
+    ),
+    show_type: bool = typer.Option(
+        False,
+        help="Show function type.",
+    ),
 ):
     """
     Show exports of a wheel or a shared library file.
     """
     try:
         exports = get_exports(wheel_or_so_file)
-        for export in exports:
-            print(f"{export}:")
-            for symbol in exports[export]:
-                print(f"{symbol.kind.name:>10}\t{symbol.name}")
+        for wasmfile in exports:
+            print(f"{wasmfile}:")
+            for symbol in exports[wasmfile]:
+                msg = f"{symbol.kind.name:>10}\t{symbol.name}"
+                if show_type:
+                    typ = function_type.get_function_type_by_idx(wasmfile, symbol.index)
+                    msg += f"\t{function_type.format_function_type(typ)}"
+
+                print(msg)
     except Exception as e:
         raise e
 
@@ -102,16 +111,28 @@ def _exports(
 def _imports(
     wheel_or_so_file: Path = typer.Argument(
         ..., help="Path to wheel or a shared library file."
-    )
+    ),
+    show_type: bool = typer.Option(
+        False,
+        help="Show function type.",
+    ),
 ):
     """
     Show imports of a wheel or a shared library file.
     """
     try:
         imports = get_imports(wheel_or_so_file)
-        for _import in imports:
-            print(f"{_import}:")
-            for symbol in imports[_import]:
-                print(f"{symbol.module:>10}{symbol.kind.name:>10}\t{symbol.field}")
+        for wasmfile in imports:
+            print(f"{wasmfile}:")
+            for symbol in imports[wasmfile]:
+                msg = f"{symbol.module:>10}{symbol.kind.name:>10}\t{symbol.field}"
+
+                if show_type and symbol.kind.name == "FUNC":
+                    typ = function_type.get_function_type_by_typeval(
+                        wasmfile, symbol.type
+                    )
+                    msg += f"\t{function_type.format_function_type(typ)}"
+
+                print(msg)
     except Exception as e:
         raise e

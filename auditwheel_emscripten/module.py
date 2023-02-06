@@ -1,3 +1,4 @@
+import functools
 import os
 from pathlib import Path
 
@@ -135,24 +136,29 @@ def patch_needed_libs_path(dylib: Path, dep_map: dict[str, Path]):
     return patched_module
 
 
+@functools.cache
+def _load_module(wasm_file):
+    return ModuleWritable(wasm_file)
+
+
 def _get_exports(wasm_file):
-    with ModuleWritable(wasm_file) as module:
+    with _load_module(wasm_file) as module:
         exports = module.get_exports()
         return exports
 
 
 def _get_imports(wasm_file):
-    with ModuleWritable(wasm_file) as module:
+    with _load_module(wasm_file) as module:
         imports = module.get_imports()
         return imports
 
 
-def _get_function_type(wasm_file, idx):
-    with ModuleWritable(wasm_file) as module:
+def _get_function_type_by_idx(wasm_file, idx):
+    with _load_module(wasm_file) as module:
         function_type = module.get_function_type(idx)
         return function_type
 
-def _get_function_types(wasm_file):
-    with ModuleWritable(wasm_file) as module:
-        function_types = module.get_function_types()
-        return function_types
+
+def _get_function_type_by_typeval(wasm_file, typeval):
+    with _load_module(wasm_file) as module:
+        return module.get_types()[typeval]
