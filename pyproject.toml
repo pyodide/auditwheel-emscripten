@@ -16,6 +16,7 @@ dependencies = [
     "typer[all]",
     "wheel",
 ]
+license.file = "LICENSE"
 
 [project.optional-dependencies]
 test = [
