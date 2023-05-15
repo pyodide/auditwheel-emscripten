@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit_core >=3.2,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
 
 [project]
 name = "auditwheel_emscripten"
@@ -29,3 +29,6 @@ Home = "https://github.com/ryanking13/auditwheel-emscripten"
 
 [project.entry-points."pyodide.cli"]
 auditwheel = "auditwheel_emscripten.cli.main:app"
+
+[tool.hatch.version]
+source = "vcs"
