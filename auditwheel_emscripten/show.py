@@ -6,6 +6,7 @@ from .module import parse_dylink_section
 from .wheel_utils import is_emscripten_wheel, unpack
 from .wasm_utils import is_wasm_module
 
+
 def show_dylib(dylib_file: Path) -> list[str]:
     if not is_wasm_module(dylib_file):
         raise RuntimeError(f"{dylib_file} is not a WASM file")
