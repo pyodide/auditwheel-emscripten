@@ -8,3 +8,5 @@ SHAPELY_WHEEL = TEST_DATA / "Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.
 
 LIBSSL_SO = TEST_DATA / "libssl.so"
 LIBCRYPTO_SO = TEST_DATA / "libcrypto.so"
+
+ELF_BINARY = TEST_DATA / "elf"
