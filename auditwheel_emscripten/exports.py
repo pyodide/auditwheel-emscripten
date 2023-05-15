@@ -5,11 +5,12 @@ from .emscripten_tools.webassembly import Export
 from .lib_utils import get_all_shared_libs_in_dir, sharedlib_regex
 from .module import _get_exports
 from .wheel_utils import is_emscripten_wheel, unpack
+from .wasm_utils import is_wasm_module
 
 
 def get_exports_dylib(dylib_file: Path) -> list[Export]:
-    if dylib_file.read_bytes()[:4] not in (b"\0asm", b"asm\0"):
-        raise RuntimeError(f"{dylib_file} is not a wasm file")
+    if not is_wasm_module(dylib_file):
+        raise RuntimeError(f"{dylib_file} is not a WASM file")
 
     exports = _get_exports(dylib_file)
     return exports

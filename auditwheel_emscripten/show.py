@@ -4,11 +4,12 @@ from pathlib import Path
 from .lib_utils import get_all_shared_libs_in_dir, sharedlib_regex
 from .module import parse_dylink_section
 from .wheel_utils import is_emscripten_wheel, unpack
+from .wasm_utils import is_wasm_module
 
 
 def show_dylib(dylib_file: Path) -> list[str]:
-    if dylib_file.read_bytes()[:4] not in (b"\0asm", b"asm\0"):
-        raise RuntimeError(f"{dylib_file} is not a wasm file")
+    if not is_wasm_module(dylib_file):
+        raise RuntimeError(f"{dylib_file} is not a WASM file")
 
     dylink = parse_dylink_section(dylib_file)
     return dylink.needed
