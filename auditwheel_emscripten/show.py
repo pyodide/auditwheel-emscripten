@@ -27,7 +27,6 @@ def show_wheel_unpacked(wheel_extract_dir: str | Path) -> dict[str, list[str]]:
 
 
 def show_wheel(wheel_file: Path) -> dict[str, list[str]]:
-
     if not is_emscripten_wheel(wheel_file.name):
         raise RuntimeError(f"{wheel_file} is not an emscripten wheel")
 

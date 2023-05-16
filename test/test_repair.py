@@ -21,7 +21,6 @@ from auditwheel_emscripten.wheel_utils import WHEEL_INFO_RE, unpack
     ],
 )
 def test_resolve_sharedlib(wheel_file, expected):
-
     dep_map = resolve_sharedlib(wheel_file, TEST_DATA)
     required_libs = dep_map.keys()
 

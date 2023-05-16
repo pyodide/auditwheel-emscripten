@@ -30,7 +30,6 @@ def get_imports_wheel_unpacked(
 
 
 def get_imports_wheel(wheel_file: Path) -> dict[str, list[Import]]:
-
     if not is_emscripten_wheel(wheel_file.name):
         raise RuntimeError(f"{wheel_file} is not an emscripten wheel")
 
