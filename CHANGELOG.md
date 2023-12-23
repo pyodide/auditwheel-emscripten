@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.0.14] - 2023-12-23
+
+### Changed
+
+- Changed the bahavior of the `repair` command. It does not update `needed` section anymore
+  and only copies the shared libraries to the wheel.
+  Also, `copy` command is deprecated in favor of `repair`.
+  ([#25](https://github.com/ryanking13/auditwheel-emscripten/pull/25)) 
+
+## [0.0.13] - 2023.06.08
+
+- Added py.typed file.
+  ([#16](https://github.com/ryanking13/auditwheel-emscripten/pull/16))
+
 ## [0.0.12] - 2023.02.13
 
 ### Fixed
