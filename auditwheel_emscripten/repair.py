@@ -80,7 +80,7 @@ def repair(
     libdir: str | Path,
     outdir: str | Path | None,
     lib_sdir: str = ".libs",
-    modify_needed_section: bool = False,
+    modify_needed_section: bool = False,  # Deprecated
 ) -> Path:
     file = Path(wheel_file)
     if not file.exists():
@@ -100,10 +100,7 @@ def repair(
         tmpdir = Path(tmpdirname)
 
         extract_dir = unpack(str(wheel_file), str(tmpdir))
-        if modify_needed_section:
-            repair_extracted(extract_dir, dep_map, lib_sdir)
-        else:
-            copylib(extract_dir, dep_map, lib_sdir)
+        copylib(extract_dir, dep_map, lib_sdir)
         pack(str(extract_dir), str(outdir), None)
 
     return outdir / file.name

@@ -60,7 +60,7 @@ def test_copylib(tmp_path, wheel_file, expected):
             SHAPELY_WHEEL,
             [
                 "libgeos.so.3.10.3",
-                "../../Shapely.libs/libgeos_c.so",
+                "libgeos_c.so",
             ],
         ),
     ],

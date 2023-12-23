@@ -43,11 +43,14 @@ def _repair(
     ),
 ):
     """
-    [Experimental] Repair a wheel file: copy shared libraries to the wheel directory and modify the path in the wheel file.
+    Repair a wheel file: copy shared libraries to the wheel directory.
     """
     try:
         repaired_wheel = repair(
-            wheel_file, libdir, output_dir, modify_needed_section=True
+            wheel_file,
+            libdir,
+            output_dir,
+            modify_needed_section=False,
         )
         dependencies = show(repaired_wheel)
         pprint(dependencies)
@@ -68,16 +71,9 @@ def _copy(
     ),
 ):
     """
-    Copy shared libraries to the wheel directory. Similar to repair but does not modify the needed section of WASM module.
+    [Deprecated] Copy shared libraries to the wheel directory. Works same as `repair`. Use `repair` instead.
     """
-    try:
-        repaired_wheel = repair(
-            wheel_file, libdir, output_dir, modify_needed_section=False
-        )
-        dependencies = show(repaired_wheel)
-        pprint(dependencies)
-    except RuntimeError as e:
-        raise e
+    return _repair(wheel_file, libdir, output_dir)
 
 
 @app.command("exports")

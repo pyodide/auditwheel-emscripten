@@ -17,7 +17,7 @@ auditwheel-emscripten is a tiny tool to facilitate the creation of Python wheel 
 Python-in-the-browser using Emscripten.
 
 - `pyodide auditwheel show`: shows external shared libraries that the wheel depends on.
-- `pyodide auditwheel copy`: copies these external shared libraries into the wheel itself.
+- `pyodide auditwheel repair`: copies these external shared libraries into the wheel itself.
 
 ## Usage (CLI)
 
@@ -30,10 +30,10 @@ Python-in-the-browser using Emscripten.
 │ --help          Show this message and exit.                                                                                         │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Commands ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ copy      Copy shared libraries to the wheel directory. Similar to repair but does not modify the needed section of WASM module.    │
+│ copy      [Deprecated] Copy shared libraries to the wheel directory. Works same as repair. Use repair instead.          │
 │ exports   Show exports of a wheel or a shared library file.                                                                         │
 │ imports   Show imports of a wheel or a shared library file.                                                                         │
-│ repair    [Experimental] Repair a wheel file: copy shared libraries to the wheel directory and modify the path in the wheel file.   │
+│ repair    Repair a wheel file: copy shared libraries to the wheel directory.   │
 │ show      Show shared library dependencies of a wheel or a shared library file.                                                     │
 ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
 ```
