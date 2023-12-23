@@ -50,7 +50,7 @@ The following external shared libraries are required:
 ```
 
 ```sh
-$ pyodide auditwheel copy --libdir <directory which contains libgeos_c.so> Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
+$ pyodide auditwheel repair --libdir <directory which contains libgeos_c.so> Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
 
 Repaired wheel has following external shared libraries:
 {
@@ -81,10 +81,6 @@ repaired_wheel = repair(
     "Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl",
     libdir="/path/where/shared/libraries/are/located",
     outdir="/path/to/output/directory",
-    # If set this to true, modify the needed section of WASM module.
-    # Note that is not compatible with WebAssembly dynamic linking ABI.
-    # https://github.com/WebAssembly/tool-conventions/blob/main/DynamicLinking.md
-    modify_needed_section=False,
 )
 libs = show(repaired_wheel)
 print(libs)
