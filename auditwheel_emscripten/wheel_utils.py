@@ -36,7 +36,7 @@ def is_emscripten_wheel(filename: str) -> bool:
     _, _, _, tags = parse_wheel_filename(filename)
     tag = list(tags)[0]
     platform = tag.platform
-    return platform.startswith("emscripten")
+    return platform.startswith(("emscripten", "pyodide"))
 
 
 def parse_wheel_extract_dir(wheel_file: str | Path) -> str:
