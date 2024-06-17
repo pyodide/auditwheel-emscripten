@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Support Pyodide>=0.26.0 wheels that has "pyodide" platform tag.
+  ([#31](https://github.com/ryanking13/auditwheel-emscripten/pull/31))
 
 ## [0.0.14] - 2023-12-23
 
