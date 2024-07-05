@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.0.16] - 2024-07-05
+
+### Fixed
+
+- Fixed incorrect extra dependency for typer
+  ([#32](https://github.com/ryanking13/auditwheel-emscripten/pull/32))
+
 ## [0.0.15] - 2024-06-17
 
 ### Fixed
