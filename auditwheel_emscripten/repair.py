@@ -60,9 +60,7 @@ def copylib(
     return new_dep_map
 
 
-def modify_runtime_path(
-    wheel_extract_dir: str | Path, runtime_path: str
-) -> None:
+def modify_runtime_path(wheel_extract_dir: str | Path, runtime_path: str) -> None:
     """
     Patch the runtime path of shared libraries inside the wheel file
 

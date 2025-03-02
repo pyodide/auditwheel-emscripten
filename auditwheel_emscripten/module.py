@@ -82,7 +82,7 @@ class ModuleWritable(webassembly.Module):
         for path in dylink.runtime_paths:
             subsection_buf.extend(leb128.u.encode(len(path.encode())))
             subsection_buf += path.encode()
-        
+
         buf.extend(leb128.u.encode(DylinkType.RUNTIME_PATH))
         buf.extend(leb128.u.encode(len(subsection_buf)))
         buf.extend(subsection_buf)
@@ -136,7 +136,9 @@ class ModuleWritable(webassembly.Module):
             realpath_with_prefix = "$ORIGIN/" + relpath
 
         dylink_section: webassembly.Dylink = self.parse_dylink_section()
-        patched_dylink_section = dylink_section._replace(runtime_paths=[realpath_with_prefix])
+        patched_dylink_section = dylink_section._replace(
+            runtime_paths=[realpath_with_prefix]
+        )
         encoded_dylink_section = self.encode_dylink_section(patched_dylink_section)
         patched_module = self.patch_dylink(encoded_dylink_section)
 
@@ -156,7 +158,7 @@ def parse_dylink_section(dylib: Path):
 def patch_runtime_path(dylib: Path, runtime_path: Path):
     with ModuleWritable(dylib) as m:
         patched_module = m.patch_runtime_path(runtime_path)
-    
+
     return patched_module
 
 
