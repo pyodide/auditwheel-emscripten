@@ -157,6 +157,7 @@ class DylinkType(IntEnum):
     NEEDED = 2
     EXPORT_INFO = 3
     IMPORT_INFO = 4
+    RUNTIME_PATH = 5
 
 
 class InvalidWasmError(BaseException):
@@ -178,6 +179,7 @@ Dylink = namedtuple(
         "needed",
         "export_info",
         "import_info",
+        "runtime_paths",
     ],
 )
 Table = namedtuple("Table", ["elem_type", "limits"])
@@ -332,6 +334,7 @@ class Module:
         needed = []
         export_info = {}
         import_info = {}
+        runtime_paths = []
         self.read_string()  # name
 
         if dylink_section.name == "dylink":
@@ -378,6 +381,12 @@ class Module:
                         import_info.setdefault(module, {})
                         import_info[module][field] = flags
                         count -= 1
+                elif subsection_type == DylinkType.RUNTIME_PATH:
+                    count = self.read_uleb()
+                    while count:
+                        rpath = self.read_string()
+                        runtime_paths.append(rpath)
+                        count -= 1
                 else:
                     print(f"unknown subsection: {subsection_type}")
                     # ignore unknown subsections
@@ -395,6 +404,7 @@ class Module:
             needed,
             export_info,
             import_info,
+            runtime_paths,
         )
 
     @memoize

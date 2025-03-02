@@ -4,7 +4,7 @@ from collections import deque
 from pathlib import Path
 
 from .lib_utils import get_all_shared_libs_in_dir, libdir_candidates
-from .module import patch_needed_libs_path
+from .module import patch_runtime_path
 from .show import show
 from .wheel_utils import WHEEL_INFO_RE, is_emscripten_wheel, pack, unpack
 
@@ -60,19 +60,27 @@ def copylib(
     return new_dep_map
 
 
-def repair_extracted(
-    wheel_extract_dir: str | Path,
-    dep_map: dict[str, Path],
-    lib_sdir: str,
-) -> dict[str, Path]:
-    dep_map_copied = copylib(wheel_extract_dir, dep_map, lib_sdir)
+def modify_runtime_path(
+    wheel_extract_dir: str | Path, runtime_path: str
+) -> None:
+    """
+    Patch the runtime path of shared libraries inside the wheel file
+
+    Parameters
+    ----------
+    wheel_extract_dir : str | Path
+        The directory containing the extracted wheel file
+
+    runtime_path : str
+        The target directory name where the shared libraries are located
+    """
+    runtime_path_full = Path(wheel_extract_dir) / runtime_path
+    assert runtime_path_full.exists(), f"lib directory not found: {runtime_path_full}"
 
     shared_libs = get_all_shared_libs_in_dir(wheel_extract_dir)
     for shared_lib in shared_libs:
-        patched_module = patch_needed_libs_path(shared_lib, dep_map_copied)
+        patched_module = patch_runtime_path(shared_lib, runtime_path_full)
         shared_lib.write_bytes(patched_module)
-
-    return dep_map_copied
 
 
 def repair(
@@ -80,7 +88,7 @@ def repair(
     libdir: str | Path,
     outdir: str | Path | None,
     lib_sdir: str = ".libs",
-    modify_needed_section: bool = False,  # Deprecated
+    modify_rpath: bool = True,
 ) -> Path:
     file = Path(wheel_file)
     if not file.exists():
@@ -101,6 +109,8 @@ def repair(
 
         extract_dir = unpack(str(wheel_file), str(tmpdir))
         copylib(extract_dir, dep_map, lib_sdir)
+        if modify_rpath:
+            modify_runtime_path(extract_dir, lib_sdir)
         pack(str(extract_dir), str(outdir), None)
 
     return outdir / file.name

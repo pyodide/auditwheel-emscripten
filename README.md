@@ -17,7 +17,7 @@ auditwheel-emscripten is a tiny tool to facilitate the creation of Python wheel 
 Python-in-the-browser using Emscripten.
 
 - `pyodide auditwheel show`: shows external shared libraries that the wheel depends on.
-- `pyodide auditwheel repair`: copies these external shared libraries into the wheel itself.
+- `pyodide auditwheel repair`: copies these external shared libraries into the wheel itself, and update the RPATH of the WASM module correspondingly.
 
 ## Usage (CLI)
 

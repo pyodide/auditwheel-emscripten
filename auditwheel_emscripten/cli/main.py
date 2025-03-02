@@ -50,7 +50,7 @@ def _repair(
             wheel_file,
             libdir,
             output_dir,
-            modify_needed_section=False,
+            modify_rpath=True,
         )
         dependencies = show(repaired_wheel)
         pprint(dependencies)
