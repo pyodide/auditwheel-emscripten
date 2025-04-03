@@ -59,12 +59,15 @@ def unpack(path: str | Path, dest: str | Path = ".") -> Path:
     path = str(path)
     dest = str(dest)
 
-    subprocess.run(
+    result = subprocess.run(
         ["wheel", "unpack", path, "--dest", dest],
         check=True,
         encoding="utf-8",
         capture_output=True,
     )
+
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to unpack wheel: {result.stderr}")
 
     return Path(dest) / parse_wheel_extract_dir(path)
 
@@ -85,4 +88,7 @@ def pack(directory: str | Path, dest_dir: str | Path, build_number: str | None) 
     if build_number is not None:
         cmd.extend(["--build-number", build_number])
 
-    subprocess.run(cmd, check=True, encoding="utf-8", capture_output=True)
+    result = subprocess.run(cmd, check=True, encoding="utf-8", capture_output=True)
+
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to pack wheel: {result.stderr}")
