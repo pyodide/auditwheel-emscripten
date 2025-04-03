@@ -55,3 +55,9 @@ repos:
     hooks:
       - id: codespell
         args: ["-L", "te,slowy,aray,ba,nd,classs,crate,feld,lits"]
+
+  - repo: https://github.com/woodruffw/zizmor-pre-commit
+    rev: "v1.5.2"
+    hooks:
+      - id: zizmor
+        args: ["--pedantic"]
