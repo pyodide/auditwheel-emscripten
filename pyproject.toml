@@ -8,7 +8,7 @@ authors = [{name = "Gyeongjae Choi", email = "def6488@gmail.com"}]
 readme = "README.md"
 description = "auditwheel-like tool for Pyodide"
 dynamic = ["version"]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "leb128",
     "packaging",

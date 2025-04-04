@@ -1,13 +1,11 @@
-import io
 import re
-from contextlib import redirect_stdout, contextmanager
-from pathlib import Path
+import subprocess
 import tempfile
+from contextlib import contextmanager
+from pathlib import Path
 from collections.abc import Generator
 
 from packaging.utils import parse_wheel_filename
-from wheel.cli.pack import pack as pack_wheel
-from wheel.cli.unpack import unpack as unpack_wheel
 
 # Copied from auditwheel
 WHEEL_INFO_RE = re.compile(
@@ -61,8 +59,15 @@ def unpack(path: str | Path, dest: str | Path = ".") -> Path:
     path = str(path)
     dest = str(dest)
 
-    with io.StringIO() as buf, redirect_stdout(buf):
-        unpack_wheel(path, dest)
+    result = subprocess.run(
+        ["wheel", "unpack", path, "--dest", dest],
+        check=True,
+        encoding="utf-8",
+        capture_output=True,
+    )
+
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to unpack wheel: {result.stderr}")
 
     return Path(dest) / parse_wheel_extract_dir(path)
 
@@ -73,9 +78,17 @@ def pack(directory: str | Path, dest_dir: str | Path, build_number: str | None) 
     wheel file name can be determined.
     :param directory: The unpacked wheel directory
     :param dest_dir: Destination directory (defaults to the current directory)
+    :param build_number: Optional build number for the wheel
     """
     directory = str(directory)
     dest_dir = str(dest_dir)
 
-    with io.StringIO() as buf, redirect_stdout(buf):
-        pack_wheel(directory, dest_dir, build_number)
+    cmd = ["wheel", "pack", directory, "--dest-dir", dest_dir]
+
+    if build_number is not None:
+        cmd.extend(["--build-number", build_number])
+
+    result = subprocess.run(cmd, check=True, encoding="utf-8", capture_output=True)
+
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to pack wheel: {result.stderr}")
