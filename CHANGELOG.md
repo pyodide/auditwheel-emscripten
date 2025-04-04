@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.1.0] - 2025-04-04
+
+### Changed
+
+- `auditwheel repair` command now updates the DYLINK RPATH section of the wasm module.
+  ([#41](https://github.com/ryanking13/auditwheel-emscripten/pull/41))
+
 ## [0.0.16] - 2024-07-05
 
 ### Fixed

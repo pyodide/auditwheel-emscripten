@@ -133,12 +133,16 @@ class ModuleWritable(webassembly.Module):
         if relpath == ".":
             realpath_with_prefix = "$ORIGIN"
         else:
-            realpath_with_prefix = "$ORIGIN/" + relpath
+            realpath_with_prefix = "$ORIGIN/" + Path(relpath).as_posix()
 
         dylink_section: webassembly.Dylink = self.parse_dylink_section()
-        original_runtime_paths = dylink_section.runtime_paths
+        runtime_paths = dylink_section.runtime_paths
+
+        if realpath_with_prefix not in runtime_paths:
+            runtime_paths = runtime_paths + [realpath_with_prefix]
+
         patched_dylink_section = dylink_section._replace(
-            runtime_paths=original_runtime_paths + [realpath_with_prefix]
+            runtime_paths=runtime_paths,
         )
         encoded_dylink_section = self.encode_dylink_section(patched_dylink_section)
         patched_module = self.patch_dylink(encoded_dylink_section)
