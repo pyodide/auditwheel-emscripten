@@ -136,8 +136,9 @@ class ModuleWritable(webassembly.Module):
             realpath_with_prefix = "$ORIGIN/" + relpath
 
         dylink_section: webassembly.Dylink = self.parse_dylink_section()
+        original_runtime_paths = dylink_section.runtime_paths
         patched_dylink_section = dylink_section._replace(
-            runtime_paths=[realpath_with_prefix]
+            runtime_paths=original_runtime_paths + [realpath_with_prefix]
         )
         encoded_dylink_section = self.encode_dylink_section(patched_dylink_section)
         patched_module = self.patch_dylink(encoded_dylink_section)
