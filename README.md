@@ -1,7 +1,7 @@
 # auditwheel-emscripten
 
 [![PyPI Latest Release](https://img.shields.io/pypi/v/auditwheel-emscripten.svg)](https://pypi.org/project/auditwheel-emscripten/)
-![Test Status](https://github.com/ryanking13/auditwheel-emscripten/actions/workflows/test.yml/badge.svg)
+![Test Status](https://github.com/pyodide/auditwheel-emscripten/actions/workflows/test.yml/badge.svg)
 
 auditwheel-like tool for wheels targeting Emscripten platform
 
