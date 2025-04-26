@@ -71,7 +71,7 @@ def test_repair(tmp_path, wheel_file, expected):
     repaired_wheel = repair(wheel_file, TEST_DATA, tmp_path, modify_rpath=True)
 
     libs = show(repaired_wheel)
-    libs_dependencies = list(chain(*libs.values()))
+    libs_dependencies = list(chain(*[dep for (dep, _) in libs.values()]))
     for expected_lib in expected:
         assert (
             expected_lib in libs_dependencies

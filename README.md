@@ -39,26 +39,29 @@ Python-in-the-browser using Emscripten.
 ```
 
 ```sh
-# wget https://cdn.jsdelivr.net/pyodide/v0.21.3/full/Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
-$ pyodide auditwheel show Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
+$ pyodide auditwheel show shapely-2.0.7-cp313-cp313-pyodide_2025_0_wasm32.whl
+shapely/speedups/_speedups.cpython-310-wasm32-emscripten.so:
+        libgeos_c.so
 
-The following external shared libraries are required:
-{
-│   'shapely/speedups/_speedups.cpython-310-wasm32-emscripten.so': ['libgeos_c.so'],
-│   'shapely/vectorized/_vectorized.cpython-310-wasm32-emscripten.so': ['libgeos_c.so']
-}
+shapely/vectorized/_vectorized.cpython-310-wasm32-emscripten.so:
+        libgeos_c.so
 ```
 
 ```sh
-$ pyodide auditwheel repair --libdir <directory which contains libgeos_c.so> Shapely-1.8.2-cp310-cp310-emscripten_3_1_14_wasm32.whl
+$ pyodide auditwheel repair --libdir <directory which contains libgeos_c.so> shapely-2.0.7-cp313-cp313-pyodide_2025_0_wasm32.whl
+shapely/lib.cpython-313-wasm32-emscripten.so:
+        libgeos_c.so => shapely.libs/libgeos_c.so
 
-Repaired wheel has following external shared libraries:
-{
-│   'Shapely.libs/libgeos.so.3.10.3': [],
-│   'Shapely.libs/libgeos_c.so': ['libgeos.so.3.10.3'],
-│   'shapely/speedups/_speedups.cpython-310-wasm32-emscripten.so': ['libgeos_c.so'],
-│   'shapely/vectorized/_vectorized.cpython-310-wasm32-emscripten.so': ['libgeos_c.so']
-}
+shapely/_geometry_helpers.cpython-313-wasm32-emscripten.so:
+        libgeos_c.so => shapely.libs/libgeos_c.so
+
+shapely/_geos.cpython-313-wasm32-emscripten.so:
+        libgeos_c.so => shapely.libs/libgeos_c.so
+
+shapely.libs/libgeos.so:
+
+shapely.libs/libgeos_c.so:
+        libgeos.so => shapely.libs/libgeos.so
 ```
 
 

@@ -21,7 +21,7 @@ def resolve_sharedlib(wheel_file: str | Path, libdir: str | Path) -> dict[str, P
 
     dependencies_resolved: dict[str, Path] = {}
     while dep_queue:
-        lib, deps = dep_queue.popleft()
+        lib, (deps, _) = dep_queue.popleft()
         for dep in deps:
             if dep in dependencies_resolved:
                 continue

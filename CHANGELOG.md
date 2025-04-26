@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Changed
+
+- The output format of `pyodide auditwheel show` has been simplified to be more `ldd`-like. It also shows the location of the dependencies in the wheel
+  using the runtime path of the shared libraries.
+
+- `pyodide auditwheel show` now accepts `-r`, `--with-runtime-paths` option to show the runtime paths of the shared libraries in the wheel.
+
+- `auditwheel.show()` function now returns the runtime paths of the shared libraries in the wheel as well.
+
 ## [0.1.0] - 2025-04-04
 
 ### Changed
