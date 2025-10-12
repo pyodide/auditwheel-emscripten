@@ -13,7 +13,6 @@ dependencies = [
     "leb128",
     "packaging",
     "pyodide-cli",
-    "typer",
     "wheel",
 ]
 license.file = "LICENSE"
