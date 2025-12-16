@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### [0.2.1] - 2025/12/16
+
+### Added
+
+- `resolve_sharedlib` function now accepts a list of library directories to search for shared libraries.
+  ([#51](https://github.com/pyodide/auditwheel-emscripten/pull/51))
+
+
+### [0.2.0] - 2025/05/29
+
 ### Changed
 
 - The output format of `pyodide auditwheel show` has been simplified to be more `ldd`-like. It also shows the location of the dependencies in the wheel
