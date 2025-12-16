@@ -29,6 +29,11 @@ def test_resolve_sharedlib(wheel_file, expected):
     for expected_lib in expected:
         assert expected_lib in required_libs, f"expected lib {expected_lib} not found"
 
+    dep_map = resolve_sharedlib(wheel_file, ["/not-existing-path", TEST_DATA])
+    required_libs = dep_map.keys()
+    for expected_lib in expected:
+        assert expected_lib in required_libs, f"expected lib {expected_lib} not found"
+
 
 @pytest.mark.parametrize(
     "wheel_file, expected",
