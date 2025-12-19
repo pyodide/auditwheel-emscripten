@@ -12,7 +12,7 @@ requires-python = ">=3.12"
 dependencies = [
     "leb128",
     "packaging",
-    "pyodide-cli",
+    "pyodide-cli>=0.4",
     "wheel",
 ]
 license.file = "LICENSE"
