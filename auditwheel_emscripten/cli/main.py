@@ -42,7 +42,13 @@ def print_dylib(
 
 @app.command("show")
 @click.argument("wheel_or_so_file", type=click.Path(path_type=Path))
-@click.option("--with-runtime-paths", "-r", is_flag=True, help="Show runtime paths.")
+@click.option(
+    "--with-runtime-paths",
+    "-r",
+    "show_runtime_paths",
+    is_flag=True,
+    help="Show runtime paths.",
+)
 def _show(
     wheel_or_so_file: Path,
     show_runtime_paths: bool,
@@ -79,7 +85,13 @@ def _show(
     default=None,
     help="Directory to output repaired wheel or shared library. (default: overwrite the input file)",
 )
-@click.option("--with-runtime-paths", "-r", is_flag=True, help="Show runtime paths.")
+@click.option(
+    "--with-runtime-paths",
+    "-r",
+    "show_runtime_paths",
+    is_flag=True,
+    help="Show runtime paths.",
+)
 def _repair(
     wheel_file: Path,
     libdir: Path,
