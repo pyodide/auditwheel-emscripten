@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### [0.2.4] - 2026/04/03
+
+### Added
+
+- Added `pyemscripten` as a supported platform tag for Pyodide wheels.
+  ([#54](https://github.com/pyodide/auditwheel-emscripten/pull/54))
+
 ### [0.2.3] - 2026/02/02
 
 ### Fixed
