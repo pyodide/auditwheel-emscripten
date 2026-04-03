@@ -48,7 +48,7 @@ def get_exports(wheel_or_so_file: str | Path) -> dict[str, list[Export]]:
     so_regex = sharedlib_regex()
     if file.is_dir():
         return get_exports_wheel_unpacked(file)
-    elif file.suffix == ".whl":
+    elif file.suffix in (".whl", ".zip"):
         return get_exports_wheel(file)
     elif so_regex.search(file.name) is not None:
         return {
