@@ -9,7 +9,9 @@ from .show import show
 from .wheel_utils import WHEEL_INFO_RE, is_emscripten_wheel, pack, unpack
 
 
-def resolve_sharedlib(wheel_file: str | Path, libdir: str | Path | list[str | Path]) -> dict[str, Path]:
+def resolve_sharedlib(
+    wheel_file: str | Path, libdir: str | Path | list[str | Path]
+) -> dict[str, Path]:
     """
     Resolve the full path of shared libraries inside the wheel file
     """

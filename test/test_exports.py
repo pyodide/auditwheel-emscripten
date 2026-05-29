@@ -26,6 +26,6 @@ def test_exports(shared_lib, expected):
         export_list.append(field)
 
     for expected_export in expected:
-        assert (
-            expected_export in export_list
-        ), f"expected import {expected_export} not found"
+        assert expected_export in export_list, (
+            f"expected import {expected_export} not found"
+        )
