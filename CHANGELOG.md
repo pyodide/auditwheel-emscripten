@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### [0.2.5] - 2026/06/01
+
+- Resolved an issue with broken RPATHs on macOS, where `/tmp` is a symlink
+  to `/private/tmp`, and added CI testing for macOS.
+  ([#55](https://github.com/pyodide/auditwheel-emscripten/pull/55)), ([#61](https://github.com/pyodide/auditwheel-emscripten/pull/61))
+
 ### [0.2.4] - 2026/04/03
 
 ### Added
