@@ -4,7 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "auditwheel_emscripten"
-authors = [{name = "Gyeongjae Choi", email = "def6488@gmail.com"}]
+authors = [{ name = "Gyeongjae Choi", email = "def6488@gmail.com" }]
+maintainers = [
+  { name = "Gyeongjae Choi", email = "def6488@gmail.com" },
+  { name = "Robert Hood Chatham", email = "roberthoodchatham@gmail.com" },
+  { name = "Agriya Khetarpal", email = "agriyakhetarpal@outlook.com" },
+]
 readme = "README.md"
 description = "auditwheel-like tool for Pyodide"
 dynamic = ["version"]
@@ -15,13 +20,11 @@ dependencies = [
     "pyodide-cli>=0.4",
     "wheel",
 ]
-license.file = "LICENSE"
+license = "MPL-2.0 AND (MIT OR NCSA)"
+license-files = ["LICENSE", "auditwheel_emscripten/emscripten_tools/LICENSE"]
 
-[project.optional-dependencies]
-test = [
-  "pytest",
-]
-
+[dependency-groups]
+test = ["pytest"]
 
 [project.urls]
 Home = "https://github.com/pyodide/auditwheel-emscripten"
