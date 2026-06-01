@@ -114,6 +114,11 @@ of the ELF binary so that the Linux operating system can locate the library when
 
 `auditwheel-emscripten` is a variation of auditwheel that is specifically designed
 to work with Emscripten-generated WebAssembly (WASM) modules.
-It does not perform an audit on the wheel, as Emscripten does not guarantee compatibility between versions.
-Instead, it simply copies the required libraries into the wheel without modifying the module itself.
-It is up to the user to manually implement a way to locate these libraries at runtime.
+Like [`auditwheel`](https://github.com/pypa/auditwheel), it copies the required shared libraries into the wheel and patches the runtime
+search path of each WASM module so the dynamic linker can locate them at runtime.
+It does this by writing a `RUNTIME_PATH` entry (using `$ORIGIN`-relative paths) into the `dylink.0`
+custom section of each module, which is the Emscripten equivalent of the ELF RPATH.
+Pyodide's dynamic linker reads this section to resolve library locations.
+
+Unlike `auditwheel` on Linux, `auditwheel-emscripten` does not enforce compatibility between
+Emscripten versions, since no stable ABI exists for Emscripten-compiled shared libraries.
