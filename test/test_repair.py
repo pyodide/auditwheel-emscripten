@@ -55,9 +55,9 @@ def test_copylib(tmp_path, wheel_file, expected):
     copylib(extract_dir, dep_map, lib_sdir)
 
     for expected_lib in expected:
-        assert (
-            extract_dir / lib_sdir / expected_lib
-        ).is_file(), f"expected lib {expected_lib} not found"
+        assert (extract_dir / lib_sdir / expected_lib).is_file(), (
+            f"expected lib {expected_lib} not found"
+        )
 
 
 @pytest.mark.parametrize(
@@ -78,9 +78,9 @@ def test_repair(tmp_path, wheel_file, expected):
     libs = show(repaired_wheel)
     libs_dependencies = list(chain(*[dep for (dep, _) in libs.values()]))
     for expected_lib in expected:
-        assert (
-            expected_lib in libs_dependencies
-        ), f"expected lib {expected_lib} not found in dependencies"
+        assert expected_lib in libs_dependencies, (
+            f"expected lib {expected_lib} not found in dependencies"
+        )
 
 
 @pytest.mark.parametrize(
@@ -116,6 +116,6 @@ def test_repair_rpath(tmp_path, wheel_file, libname, expected):
     for lib in shared_libs:
         lib_dylink = parse_dylink_section(lib)
         libname_index = libname.index(lib.name)
-        assert (
-            expected[libname_index] in lib_dylink.runtime_paths
-        ), f"expected runtime path {expected[libname_index]} not found in {lib.name}"
+        assert expected[libname_index] in lib_dylink.runtime_paths, (
+            f"expected runtime path {expected[libname_index]} not found in {lib.name}"
+        )

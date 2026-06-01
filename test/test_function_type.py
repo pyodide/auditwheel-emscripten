@@ -30,9 +30,9 @@ def test_get_function_type_by_idx(shared_lib, expected):
         if func_name in expected:
             function_type = get_function_type_by_idx(wasmfile, export.index)
             formatted = format_function_type(function_type)
-            assert (
-                formatted == expected[func_name]
-            ), f"expected {expected[func_name]} but got {formatted}"
+            assert formatted == expected[func_name], (
+                f"expected {expected[func_name]} but got {formatted}"
+            )
 
 
 @pytest.mark.parametrize(
@@ -55,6 +55,6 @@ def test_get_function_type_by_typeval(shared_lib, expected):
         if func_name in expected:
             function_type = get_function_type_by_typeval(wasmfile, _import.type)
             formatted = format_function_type(function_type)
-            assert (
-                formatted == expected[func_name]
-            ), f"expected {expected[func_name]} but got {formatted}"
+            assert formatted == expected[func_name], (
+                f"expected {expected[func_name]} but got {formatted}"
+            )

@@ -27,6 +27,6 @@ def test_imports(shared_lib, expected):
         import_list.append((module, field))
 
     for expected_import in expected:
-        assert (
-            expected_import in import_list
-        ), f"expected import {expected_import} not found"
+        assert expected_import in import_list, (
+            f"expected import {expected_import} not found"
+        )

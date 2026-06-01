@@ -36,13 +36,13 @@ def test_show(wheel_file, expected):
     libs_inside_wheel = libs.keys()
 
     assert libs_inside_wheel, "no libs found inside wheel"
-    assert all(
-        [lib.endswith(".so") for lib in libs_inside_wheel]
-    ), "not all libs are .so files"
+    assert all([lib.endswith(".so") for lib in libs_inside_wheel]), (
+        "not all libs are .so files"
+    )
     for expected_lib in expected:
-        assert (
-            expected_lib in libs_inside_wheel
-        ), f"expected lib {expected_lib} not found"
+        assert expected_lib in libs_inside_wheel, (
+            f"expected lib {expected_lib} not found"
+        )
 
 
 @pytest.mark.parametrize(
@@ -61,9 +61,9 @@ def test_show_dependencies(wheel_file, expected):
 
     libs_dependencies = list(chain(*[dep for (dep, _) in libs.values()]))
     for expected_lib in expected:
-        assert (
-            expected_lib in libs_dependencies
-        ), f"expected lib {expected_lib} not found in dependencies"
+        assert expected_lib in libs_dependencies, (
+            f"expected lib {expected_lib} not found in dependencies"
+        )
 
 
 def test_locate_dependency():
