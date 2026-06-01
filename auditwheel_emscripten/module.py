@@ -129,7 +129,11 @@ class ModuleWritable(webassembly.Module):
     def patch_runtime_path(self, runtime_path: Path) -> bytes:
         curfile = Path(self.filename).resolve()
 
-        relpath = os.path.relpath(runtime_path, curfile.parent)
+        # On macOS, /tmp is a symlink to /private/tmp. See https://apple.stackexchange.com/a/1096
+        # If we don't resolve it, the dylink.0 section for an extension module can have a broken
+        # RUNTIME_PATH pointing to a temporary build directory (`/var/folders/<...>/package/package.libs`)
+        # which causes the wheel to be non-relocatable.
+        relpath = os.path.relpath(Path(runtime_path).resolve(), curfile.parent)
         if relpath == ".":
             realpath_with_prefix = "$ORIGIN"
         else:
