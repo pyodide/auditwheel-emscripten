@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### [0.3.0] - 2026/09/22
+
+- `repair` now mangles copied shared-library filenames using a source-content
+  hash and updates dylink dependencies by default. Use `--no-mangle` to retain legacy filenames.
+
 ### [0.2.5] - 2026/06/01
 
 - Resolved an issue with broken RPATHs on macOS, where `/tmp` is a symlink
