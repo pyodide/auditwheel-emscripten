@@ -83,7 +83,6 @@ def copylib(
     return new_dep_map
 
 
-
 def _mangle_name(path: Path, file_hash: str) -> str:
     """Return the content-hashed library name used by auditwheel."""
     shorthash = file_hash[:8]

@@ -12,7 +12,7 @@ dependencies = [
     { name = "wheel" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 test = [
     { name = "pytest" },
 ]
@@ -22,10 +22,11 @@ requires-dist = [
     { name = "leb128" },
     { name = "packaging" },
     { name = "pyodide-cli", specifier = ">=0.4" },
-    { name = "pytest", marker = "extra == 'test'" },
     { name = "wheel" },
 ]
-provides-extras = ["test"]
+
+[package.metadata.requires-dev]
+test = [{ name = "pytest" }]
 
 [[package]]
 name = "click"
