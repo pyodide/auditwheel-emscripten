@@ -126,6 +126,15 @@ class ModuleWritable(webassembly.Module):
 
         return patched_module
 
+    def patch_needed(self, replacements: dict[str, str]) -> bytes:
+        """Replace matching entries in the dylink ``needed`` section."""
+        dylink_section: webassembly.Dylink = self.parse_dylink_section()
+        needed = [replacements.get(lib, lib) for lib in dylink_section.needed]
+
+        patched_dylink_section = dylink_section._replace(needed=needed)
+        encoded_dylink_section = self.encode_dylink_section(patched_dylink_section)
+        return self.patch_dylink(encoded_dylink_section)
+
     def patch_runtime_path(self, runtime_path: Path) -> bytes:
         curfile = Path(self.filename).resolve()
 
@@ -167,6 +176,13 @@ def parse_dylink_section(dylib: Path):
 def patch_runtime_path(dylib: Path, runtime_path: Path):
     with ModuleWritable(dylib) as m:
         patched_module = m.patch_runtime_path(runtime_path)
+
+    return patched_module
+
+
+def patch_needed(dylib: Path, replacements: dict[str, str]) -> bytes:
+    with ModuleWritable(dylib) as m:
+        patched_module = m.patch_needed(replacements)
 
     return patched_module
 

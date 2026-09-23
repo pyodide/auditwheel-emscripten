@@ -17,7 +17,7 @@ auditwheel-emscripten is a tiny tool to facilitate the creation of Python wheel 
 Python-in-the-browser using Emscripten.
 
 - `pyodide auditwheel show`: shows external shared libraries that the wheel depends on.
-- `pyodide auditwheel repair`: copies these external shared libraries into the wheel itself, and update the RPATH of the WASM module correspondingly.
+- `pyodide auditwheel repair`: copies these external shared libraries into the wheel itself, mangles copied names with a source-content hash, and updates the RPATH of the WASM module correspondingly.
 
 ## Usage (CLI)
 
@@ -50,18 +50,18 @@ shapely/vectorized/_vectorized.cpython-310-wasm32-emscripten.so:
 ```sh
 $ pyodide auditwheel repair --libdir <directory which contains libgeos_c.so> shapely-2.0.7-cp313-cp313-pyodide_2025_0_wasm32.whl
 shapely/lib.cpython-313-wasm32-emscripten.so:
-        libgeos_c.so => shapely.libs/libgeos_c.so
+        libgeos_c-a1b2c3d4.so => shapely.libs/libgeos_c-a1b2c3d4.so
 
 shapely/_geometry_helpers.cpython-313-wasm32-emscripten.so:
-        libgeos_c.so => shapely.libs/libgeos_c.so
+        libgeos_c-a1b2c3d4.so => shapely.libs/libgeos_c-a1b2c3d4.so
 
 shapely/_geos.cpython-313-wasm32-emscripten.so:
-        libgeos_c.so => shapely.libs/libgeos_c.so
+        libgeos_c-a1b2c3d4.so => shapely.libs/libgeos_c-a1b2c3d4.so
 
-shapely.libs/libgeos.so:
+shapely.libs/libgeos-e5f6a7b8.so:
 
-shapely.libs/libgeos_c.so:
-        libgeos.so => shapely.libs/libgeos.so
+shapely.libs/libgeos_c-a1b2c3d4.so:
+        libgeos-e5f6a7b8.so => shapely.libs/libgeos-e5f6a7b8.so
 ```
 
 
@@ -87,7 +87,7 @@ repaired_wheel = repair(
 )
 libs = show(repaired_wheel)
 print(libs)
-# {'Shapely.libs/libgeos.so.3.10.3': [], 'Shapely.libs/libgeos_c.so': ['libgeos.so.3.10.3'], 'shapely/speedups/_speedups.cpython-310-wasm32-emscripten.so': ['libgeos_c.so'], 'shapely/vectorized/_vectorized.cpython-310-wasm32-emscripten.so': ['libgeos_c.so']}
+# {'Shapely.libs/libgeos-e5f6a7b8.so.3.10.3': [], 'Shapely.libs/libgeos_c-a1b2c3d4.so': ['libgeos-e5f6a7b8.so.3.10.3'], 'shapely/speedups/_speedups.cpython-310-wasm32-emscripten.so': ['libgeos_c-a1b2c3d4.so'], 'shapely/vectorized/_vectorized.cpython-310-wasm32-emscripten.so': ['libgeos_c-a1b2c3d4.so']}
 ```
 
 ## Implementation details / limitations

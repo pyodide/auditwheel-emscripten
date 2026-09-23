@@ -92,11 +92,18 @@ def _show(
     is_flag=True,
     help="Show runtime paths.",
 )
+@click.option(
+    "--mangle/--no-mangle",
+    default=True,
+    show_default=True,
+    help="Mangle copied shared-library names using their source content hash.",
+)
 def _repair(
     wheel_file: Path,
     libdir: Path,
     output_dir: Path | None,
     show_runtime_paths: bool,
+    mangle: bool,
 ):
     """
     Repair a wheel file: copy shared libraries to the wheel directory.
@@ -105,20 +112,28 @@ def _repair(
     Arguments:
         WHEEL_FILE: Path to wheel file. (required)
     """
-    try:
-        repaired_wheel = repair(
-            wheel_file,
-            libdir,
-            output_dir,
-            modify_rpath=True,
+    _run_repair(wheel_file, libdir, output_dir, show_runtime_paths, mangle=mangle)
+
+
+def _run_repair(
+    wheel_file: Path,
+    libdir: Path,
+    output_dir: Path | None,
+    show_runtime_paths: bool,
+    mangle: bool,
+) -> None:
+    repaired_wheel = repair(
+        wheel_file,
+        libdir,
+        output_dir,
+        modify_rpath=True,
+        mangle=mangle,
+    )
+    libraries = show(repaired_wheel)
+    for lib, (deps, runtime_paths) in libraries.items():
+        print_dylib(
+            lib, deps, runtime_paths, list(libraries.keys()), show_runtime_paths
         )
-        libraries = show(repaired_wheel)
-        for lib, (deps, runtime_paths) in libraries.items():
-            print_dylib(
-                lib, deps, runtime_paths, list(libraries.keys()), show_runtime_paths
-            )
-    except RuntimeError as e:
-        raise e
 
 
 @app.command("copy")
@@ -136,10 +151,17 @@ def _repair(
     default=None,
     help="Directory to output repaired wheel or shared library. (default: overwrite the input file)",
 )
+@click.option(
+    "--mangle/--no-mangle",
+    default=True,
+    show_default=True,
+    help="Mangle copied shared-library names using their source content hash.",
+)
 def _copy(
     wheel_file: Path,
     libdir: Path,
     output_dir: Path | None,
+    mangle: bool,
 ):
     """
     [Deprecated] Copy shared libraries to the wheel directory. Works same as `repair`. Use `repair` instead.
@@ -148,7 +170,7 @@ def _copy(
     Arguments:
         WHEEL_FILE: Path to wheel file. (required)
     """
-    return _repair(wheel_file, libdir, output_dir)
+    _run_repair(wheel_file, libdir, output_dir, False, mangle=mangle)
 
 
 @app.command("exports")
